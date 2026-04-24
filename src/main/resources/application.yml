@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: tech-mart-micro
+server:
+  port: 8080
