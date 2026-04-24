@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title th:text="${product?.name} + ' - Tech Mart Micro'">Product</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#0056a6;--accent:#f5a623;--dark:#1a1a1a;--text:#333;--text-light:#666;--border:#e0e0e0;--bg-light:#f5f5f5;--green:#28a745}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Open Sans',sans-serif;font-size:14px;color:var(--text)}a{color:var(--brand);text-decoration:none}
+.top-bar{background:var(--brand);color:#fff;text-align:center;padding:8px;font-weight:600;font-size:13px}
+.header{background:#fff;border-bottom:1px solid var(--border);padding:12px 0}.header-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:16px}
+.logo{font-size:24px;font-weight:700;color:var(--brand)}.logo span{color:var(--accent)}
+.nav{background:var(--brand)}.nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex}.nav a{color:#fff;padding:10px 16px;font-size:13px;font-weight:600}
+.pdp{max-width:1280px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1fr 350px;gap:32px}
+.pdp-gallery{text-align:center;padding:48px;background:var(--bg-light);border-radius:8px;font-size:120px;color:var(--text-light)}
+.pdp-info h1{font-size:22px;margin-bottom:8px}
+.pdp-info .brand{color:var(--brand);font-weight:600;margin-bottom:12px}
+.pdp-info .features{margin-top:20px}.pdp-info .features h3{font-size:16px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.pdp-info .features ul{list-style:disc;padding-left:20px;line-height:2;font-size:13px}
+.pdp-buy{border:1px solid var(--border);border-radius:8px;padding:24px}
+.pdp-buy .return{background:var(--bg-light);padding:12px;border-radius:4px;font-size:12px;margin-bottom:16px;text-align:center}
+.pdp-buy .price{font-size:42px;font-weight:700}.pdp-buy .price sup{font-size:18px;vertical-align:super}
+.pdp-buy .stock{margin:12px 0;font-size:13px}.in-stock{color:var(--green)}.low-stock{color:var(--accent)}
+.pdp-buy .btn-cart{display:block;background:var(--brand);color:#fff;text-align:center;padding:14px;border-radius:4px;font-weight:700;font-size:16px;margin-top:16px;border:none;cursor:pointer;width:100%}.pdp-buy .btn-cart:hover{background:#004080}
+.breadcrumb{max-width:1280px;margin:12px auto;padding:0 16px;font-size:13px;color:var(--text-light)}.breadcrumb a{color:var(--text-light)}
+@media(max-width:768px){.pdp{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top-bar">Free 60-Day Tech Support on all purchases</div>
+<div class="header"><div class="header-inner">
+  <a href="/" class="logo">TECH<span>MART</span></a>
+</div></div>
+<div class="nav"><div class="nav-inner"><a href="/">Home</a><a href="#">Top Deals</a></div></div>
+<div class="breadcrumb"><a href="/">Home</a> &gt; <a th:if="${product?.category}" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}">Category</a> &gt; <span th:text="${product?.name}">Product</span></div>
+<div class="pdp" th:if="${product}">
+  <div class="pdp-gallery">&#128187;</div>
+  <div class="pdp-info">
+    <div class="brand" th:if="${product.category}" th:text="${product.category.name}">Brand</div>
+    <h1 th:text="${product.name}">Product Name</h1>
+    <div style="margin:8px 0;color:var(--accent)">&#9733;&#9733;&#9733;&#9733;&#9734; 4.2 (47 reviews)</div>
+    <div class="features">
+      <h3>Key Features</h3>
+      <ul><li th:text="${product.description}">Feature</li></ul>
+    </div>
+  </div>
+  <div class="pdp-buy">
+    <div class="return">&#8635; MAY BE RETURNED WITHIN 30 DAYS</div>
+    <div class="price">$<span th:text="${#numbers.formatInteger(product.price.intValue(), 1)}">0</span><sup th:text="${#strings.substring(#numbers.formatDecimal(product.price, 1, 2), #numbers.formatDecimal(product.price, 1, 2).indexOf('.') + 1)}">99</sup></div>
+    <div class="stock" th:classappend="${product.stock > 20 ? 'in-stock' : 'low-stock'}">
+      <span th:if="${product.stock > 20}">&#10003; In Stock</span>
+      <span th:if="${product.stock <= 20}">&#9888; Limited — <span th:text="${product.stock}">0</span> left</span>
+    </div>
+    <button class="btn-cart">&#128722; Add to Cart</button>
+    <div style="margin-top:12px;font-size:12px;color:var(--text-light);text-align:center">&#9200; 18 MINUTE IN-STORE PICKUP</div>
+  </div>
+</div>
+</body>
+</html>

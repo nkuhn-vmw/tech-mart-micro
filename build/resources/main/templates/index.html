@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Mart Micro</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#0056a6;--accent:#f5a623;--dark:#1a1a1a;--text:#333;--text-light:#666;--border:#e0e0e0;--bg-light:#f5f5f5;--green:#28a745;--red:#cc0000}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Open Sans',sans-serif;font-size:14px;color:var(--text);background:#fff}
+a{color:var(--brand);text-decoration:none}
+/* Top bar */
+.top-bar{background:var(--brand);color:#fff;text-align:center;padding:8px;font-weight:600;font-size:13px}
+.top-bar a{color:#fff;text-decoration:underline}
+/* Header */
+.header{background:#fff;border-bottom:1px solid var(--border);padding:12px 0}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:16px}
+.logo{font-size:24px;font-weight:700;color:var(--brand);white-space:nowrap}
+.logo span{color:var(--accent)}
+.search-box{flex:1;display:flex;max-width:500px}
+.search-box input{flex:1;border:2px solid var(--brand);border-right:none;border-radius:4px 0 0 4px;padding:8px 12px;font-size:14px;outline:none}
+.search-box button{background:var(--brand);color:#fff;border:2px solid var(--brand);border-radius:0 4px 4px 0;padding:8px 16px;cursor:pointer;font-size:16px}
+.header-actions{display:flex;align-items:center;gap:16px;font-size:13px;color:var(--text-light)}
+.header-actions a{color:var(--text)}
+/* Nav */
+.nav{background:var(--brand);border-bottom:3px solid #004080}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;gap:0}
+.nav a{color:#fff;padding:10px 16px;font-size:13px;font-weight:600;display:block;transition:background .2s}
+.nav a:hover{background:rgba(255,255,255,.15)}
+.nav .pickup{margin-left:auto;color:var(--accent);font-weight:700;font-size:12px;display:flex;align-items:center;gap:4px}
+/* Hero */
+.hero{max-width:1280px;margin:16px auto;padding:0 16px;display:grid;grid-template-columns:2fr 1fr;gap:16px}
+.hero-main{background:var(--dark);border-radius:8px;padding:32px;color:#fff;display:flex;align-items:center;min-height:320px}
+.hero-main h2{font-size:28px;margin-bottom:8px}
+.hero-main .price{font-size:48px;font-weight:700;margin:12px 0}
+.hero-main .price sup{font-size:20px;vertical-align:super}
+.hero-main .save{color:var(--accent);font-weight:700;font-size:18px}
+.hero-main .btn{display:inline-block;background:var(--brand);color:#fff;padding:12px 24px;border-radius:4px;font-weight:700;margin-top:12px}
+.hero-side{background:var(--bg-light);border-radius:8px;padding:24px;text-align:center}
+.hero-side h3{font-size:18px;margin-bottom:12px}
+.hero-side .price{font-size:36px;font-weight:700}
+.hero-side .save{color:var(--accent);font-weight:700}
+/* Categories */
+.section{max-width:1280px;margin:32px auto;padding:0 16px}
+.section h2{font-size:22px;font-weight:700;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.section h2 a{font-size:14px;font-weight:600}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+.cat-tile{background:var(--bg-light);border-radius:8px;padding:20px 12px;text-align:center;font-weight:600;font-size:13px;transition:box-shadow .2s;border:1px solid var(--border)}
+.cat-tile:hover{box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.cat-tile .icon{font-size:28px;margin-bottom:8px;display:block}
+/* Product grid */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.product-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;transition:box-shadow .2s;position:relative}
+.product-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.product-card .name{font-size:14px;font-weight:600;margin-bottom:8px;line-height:1.4;min-height:40px}
+.product-card .name a{color:var(--text)}
+.product-card .price{font-size:28px;font-weight:700;color:var(--dark)}
+.product-card .price sup{font-size:14px;vertical-align:super}
+.product-card .stock{font-size:12px;margin-top:8px}
+.in-stock{color:var(--green)}
+.low-stock{color:var(--accent)}
+.product-card .desc{font-size:12px;color:var(--text-light);margin:8px 0}
+.product-card .btn-cart{display:block;background:var(--brand);color:#fff;text-align:center;padding:8px;border-radius:4px;font-weight:600;font-size:13px;margin-top:12px;border:none;cursor:pointer;width:100%}
+.product-card .btn-cart:hover{background:#004080}
+/* Footer */
+.footer{background:var(--dark);color:#aaa;padding:32px 16px;margin-top:48px;font-size:12px}
+.footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.footer h4{color:#fff;font-size:14px;margin-bottom:12px}
+.footer a{color:#aaa;display:block;margin-bottom:6px}
+.footer a:hover{color:#fff}
+.footer-bottom{max-width:1280px;margin:16px auto 0;padding-top:16px;border-top:1px solid #333;text-align:center;color:#666}
+/* Category page */
+.cat-layout{max-width:1280px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:240px 1fr;gap:24px}
+.sidebar h3{font-size:16px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:3px solid var(--brand)}
+.sidebar a{display:block;padding:6px 0;color:var(--text);font-size:13px}
+.sidebar a:hover{color:var(--brand)}
+.sidebar .active{color:var(--brand);font-weight:700}
+.breadcrumb{font-size:13px;color:var(--text-light);margin-bottom:16px}
+.breadcrumb a{color:var(--text-light)}
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:13px}
+/* Product detail */
+.pdp{max-width:1280px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1fr 350px;gap:32px}
+.pdp-gallery{text-align:center;padding:24px;background:var(--bg-light);border-radius:8px}
+.pdp-features h3{font-size:18px;font-weight:700;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid var(--border)}
+.pdp-features ul{list-style:disc;padding-left:20px;line-height:2}
+.pdp-buy{border:1px solid var(--border);border-radius:8px;padding:24px}
+.pdp-buy .price{font-size:42px;font-weight:700}
+.pdp-buy .btn-cart{display:block;background:var(--brand);color:#fff;text-align:center;padding:14px;border-radius:4px;font-weight:700;font-size:16px;margin-top:16px;border:none;cursor:pointer;width:100%}
+@media(max-width:768px){.hero{grid-template-columns:1fr}.cat-layout{grid-template-columns:1fr}.pdp{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top-bar">Lowest Prices on PC Bundles &mdash; <a href="#">Shop AMD</a> | <a href="#">Shop Intel</a></div>
+<div class="header"><div class="header-inner">
+  <a href="/" class="logo">TECH<span>MART</span></a>
+  <form class="search-box" action="/search" method="get">
+    <input type="text" name="q" placeholder="What can we help you find?">
+    <button type="submit">&#128269;</button>
+  </form>
+  <div class="header-actions">
+    <a href="#">Hello, Sign in</a>
+    <a href="#">&#128722; Cart</a>
+  </div>
+</div></div>
+<div class="nav"><div class="nav-inner">
+  <a href="/">Home</a>
+  <a href="#">Top Deals</a>
+  <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" th:text="${cat.name}">Category</a>
+  <span class="pickup">&#9200; 18 MIN IN-STORE PICKUP</span>
+</div></div>
+
+<div class="hero">
+  <div class="hero-main">
+    <div>
+      <h2>AMD Ryzen 9 9950X3D</h2>
+      <p>16-Core, 32-Thread Desktop Processor</p>
+      <div class="price">$699<sup>99</sup></div>
+      <div class="save">SAVE $100</div>
+      <a href="#" class="btn">SHOP NOW &#9654;</a>
+    </div>
+  </div>
+  <div class="hero-side">
+    <h3>Top Deal</h3>
+    <p>RTX 5080 Founders Edition</p>
+    <div class="price">$999<sup>99</sup></div>
+    <div class="save">SAVE $200</div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Shop by Category</h2>
+  <div class="cat-grid">
+    <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" class="cat-tile">
+      <span class="icon">&#128187;</span>
+      <span th:text="${cat.name}">Category</span>
+    </a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Featured Products <a href="#">See All</a></h2>
+  <div class="product-grid">
+    <div th:each="p : ${featuredProducts}" class="product-card">
+      <div class="name"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">Product</a></div>
+      <div class="desc" th:text="${p.description}">Description</div>
+      <div class="price">$<span th:text="${#numbers.formatDecimal(p.price, 1, 2)}">0.00</span></div>
+      <div class="stock" th:classappend="${p.stock > 20 ? 'in-stock' : 'low-stock'}">
+        <span th:if="${p.stock > 20}">&#10003; In Stock</span>
+        <span th:if="${p.stock <= 20 and p.stock > 0}">&#9888; Limited — <span th:text="${p.stock}">0</span> left</span>
+      </div>
+      <button class="btn-cart">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer"><div class="footer-inner">
+  <div><h4>Customer Service</h4><a href="#">Returns</a><a href="#">Service &amp; Repair</a><a href="#">Satisfaction Guarantee</a></div>
+  <div><h4>Shopping</h4><a href="#">My Account</a><a href="#">In-Store Pickup</a><a href="#">Product Availability</a></div>
+  <div><h4>Resources</h4><a href="#">Community</a><a href="#">News</a><a href="#">Careers</a></div>
+  <div><h4>Company</h4><a href="#">About Us</a><a href="#">Store Locations</a><a href="#">Privacy Policy</a></div>
+</div><div class="footer-bottom">&copy; 2026 Tech Mart Micro. All rights reserved.</div></div>
+</body>
+</html>
