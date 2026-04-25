@@ -34,7 +34,7 @@
 <div class="nav"><div class="nav-inner"><a href="/">Home</a><a href="#">Top Deals</a></div></div>
 <div class="breadcrumb"><a href="/">Home</a> &gt; <a th:if="${product?.category}" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}">Category</a> &gt; <span th:text="${product?.name}">Product</span></div>
 <div class="pdp" th:if="${product}">
-  <div class="pdp-gallery">&#128187;</div>
+  <div class="pdp-gallery"><img th:src="${product.imageUrl}" alt="Product Image" style="max-width:100%;height:auto;"/></div>
   <div class="pdp-info">
     <div class="brand" th:if="${product.category}" th:text="${product.category.name}">Brand</div>
     <h1 th:text="${product.name}">Product Name</h1>
@@ -42,6 +42,25 @@
     <div class="features">
       <h3>Key Features</h3>
       <ul><li th:text="${product.description}">Feature</li></ul>
+    </div>
+    <div class="specs" style="margin-top:20px;">
+      <h3>Specifications</h3>
+      <table class="w-full text-sm" style="border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <th class="text-left" style="padding:4px;">Group</th>
+            <th class="text-left" style="padding:4px;">Name</th>
+            <th class="text-left" style="padding:4px;">Value</th>
+          </tr>
+        </thead>
+        <tbody th:each="spec : ${product.specifications}">
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:4px;" th:text="${spec.specGroup}"></td>
+            <td style="padding:4px;" th:text="${spec.specName}"></td>
+            <td style="padding:4px;" th:text="${spec.specValue}"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div class="pdp-buy">

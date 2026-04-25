@@ -44,16 +44,7 @@ public class Product {
     // Constructors
     public Product() {}
 
-    public Product(String name, String description, BigDecimal price, Integer stock, Category category, String imageUrl) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.stock = stock;
-        this.category = category;
-        this.imageUrl = imageUrl;
-    }
     public Product(String name, String description, BigDecimal price, Integer stock, Category category) {
-        // Generate placeholder image URL based on product name
         String placeholder = "https://placehold.co/400x400?text=" + name.replace(" ", "%20");
         this.name = name;
         this.description = description;

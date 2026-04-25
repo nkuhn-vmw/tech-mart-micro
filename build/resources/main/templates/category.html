@@ -53,6 +53,7 @@
     <div class="product-grid">
       <div th:each="p : ${products}" class="product-card">
         <div class="name"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">Product</a></div>
+            <img th:src="${p.imageUrl}" alt="Product Image" style="width:100%;height:auto;margin-bottom:8px;"/>
         <div class="desc" th:text="${p.description}">Desc</div>
         <div class="price">$<span th:text="${#numbers.formatDecimal(p.price, 1, 2)}">0.00</span></div>
         <div th:classappend="${p.stock > 20 ? 'in-stock' : 'low-stock'}">
