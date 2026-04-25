@@ -33,6 +33,10 @@ public class TodoController {
     // POST create new todo
     @PostMapping
     public ResponseEntity<Todo> createTodo(@RequestBody Todo todo) {
+        // Validate that title is not null or empty
+        if (todo.getTitle() == null || todo.getTitle().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         Todo saved = todoRepository.save(todo);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
@@ -45,6 +49,10 @@ public class TodoController {
             return ResponseEntity.notFound().build();
         }
         Todo todo = optionalTodo.get();
+        // Validate that title is not null or empty
+        if (todoDetails.getTitle() == null || todoDetails.getTitle().trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
         todo.setTitle(todoDetails.getTitle());
         todo.setCompleted(todoDetails.isCompleted());
         // createdAt is not updated
