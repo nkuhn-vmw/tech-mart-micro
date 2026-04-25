@@ -14,8 +14,10 @@ public class DataSeeder implements CommandLineRunner {
 
     private final CategoryRepository categoryRepo;
     private final ProductRepository productRepo;
+    private final com.techmart.repository.ProductSpecificationRepository specRepo;
 
-    public DataSeeder(CategoryRepository categoryRepo, ProductRepository productRepo) {
+    public DataSeeder(CategoryRepository categoryRepo, ProductRepository productRepo, com.techmart.repository.ProductSpecificationRepository specRepo) {
+        this.specRepo = specRepo;
         this.categoryRepo = categoryRepo;
         this.productRepo = productRepo;
     }
@@ -35,6 +37,11 @@ public class DataSeeder implements CommandLineRunner {
         // CPUs
         Product p1 = new Product("AMD Ryzen 9 9950X3D", "16-Core, 32-Thread, 4.3GHz Base, AM5, 170W TDP", new BigDecimal("699.99"), 25, cpus, "https://placehold.co/400x400?text=AMD%20Ryzen%209%209950X3D");
         productRepo.save(p1);
+        // Add specifications for CPU p1
+        specRepo.save(new com.techmart.domain.ProductSpecification("CPU", "Socket", "AM5", p1));
+        specRepo.save(new com.techmart.domain.ProductSpecification("CPU", "Cores", "16", p1));
+        specRepo.save(new com.techmart.domain.ProductSpecification("CPU", "Threads", "32", p1));
+        specRepo.save(new com.techmart.domain.ProductSpecification("CPU", "TDP", "170W", p1));
         productRepo.save(new Product("AMD Ryzen 7 9800X3D", "8-Core, 16-Thread, 4.7GHz Base, AM5, 120W TDP", new BigDecimal("479.99"), 42, cpus));
         productRepo.save(new Product("AMD Ryzen 5 9600X", "6-Core, 12-Thread, 3.9GHz Base, AM5, 65W TDP", new BigDecimal("229.99"), 78, cpus));
         productRepo.save(new Product("Intel Core Ultra 9 285K", "24-Core, 24-Thread, 3.7GHz Base, LGA1851", new BigDecimal("589.99"), 15, cpus));
@@ -42,7 +49,12 @@ public class DataSeeder implements CommandLineRunner {
         productRepo.save(new Product("Intel Core Ultra 5 245K", "14-Core, 14-Thread, 4.2GHz Base, LGA1851", new BigDecimal("309.99"), 55, cpus));
 
         // GPUs
-        productRepo.save(new Product("NVIDIA RTX 5090 Founders Edition", "32GB GDDR7, 21760 CUDA Cores, PCIe 5.0", new BigDecimal("1999.99"), 5, gpus));
+        Product g1 = new Product("NVIDIA RTX 5090 Founders Edition", "32GB GDDR7, 21760 CUDA Cores, PCIe 5.0", new BigDecimal("1999.99"), 5, gpus);
+        productRepo.save(g1);
+        // Add specifications for GPU g1
+        specRepo.save(new com.techmart.domain.ProductSpecification("GPU", "VRAM", "32GB GDDR7", g1));
+        specRepo.save(new com.techmart.domain.ProductSpecification("GPU", "CUDA Cores", "21760", g1));
+        specRepo.save(new com.techmart.domain.ProductSpecification("GPU", "Bus", "PCIe 5.0", g1));
         productRepo.save(new Product("NVIDIA RTX 5080 Founders Edition", "16GB GDDR7, 10752 CUDA Cores", new BigDecimal("999.99"), 12, gpus));
         productRepo.save(new Product("NVIDIA RTX 5070 Ti", "16GB GDDR7, 8960 CUDA Cores", new BigDecimal("749.99"), 20, gpus));
         productRepo.save(new Product("AMD Radeon RX 9070 XT", "16GB GDDR6, Triple Fan", new BigDecimal("729.99"), 18, gpus));

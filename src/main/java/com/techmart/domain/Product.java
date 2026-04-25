@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * JPA entity representing a product.
@@ -16,9 +17,8 @@ public class Product {
 
     private String imageUrl;
 
-    private String imageUrl;
-
-    private String imageUrl;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private java.util.List<com.techmart.domain.ProductSpecification> specifications;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,4 +88,7 @@ public class Product {
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public void setCategory(Category category) { this.category = category; }
+
+    public java.util.List<com.techmart.domain.ProductSpecification> getSpecifications() { return specifications; }
+    public void setSpecifications(java.util.List<com.techmart.domain.ProductSpecification> specifications) { this.specifications = specifications; }
 }

@@ -43,6 +43,25 @@
       <h3>Key Features</h3>
       <ul><li th:text="${product.description}">Feature</li></ul>
     </div>
+    <div class="specs" style="margin-top:20px;">
+      <h3>Specifications</h3>
+      <table class="w-full text-sm" style="border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid #e0e0e0;">
+            <th class="text-left" style="padding:4px;">Group</th>
+            <th class="text-left" style="padding:4px;">Name</th>
+            <th class="text-left" style="padding:4px;">Value</th>
+          </tr>
+        </thead>
+        <tbody th:each="spec : ${product.specifications}">
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:4px;" th:text="${spec.specGroup}"></td>
+            <td style="padding:4px;" th:text="${spec.specName}"></td>
+            <td style="padding:4px;" th:text="${spec.specValue}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="pdp-buy">
     <div class="return">&#8635; MAY BE RETURNED WITHIN 30 DAYS</div>
