@@ -11,6 +11,7 @@
 .header{background:#fff;border-bottom:1px solid var(--border);padding:12px 0}.header-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:16px}
 .logo{font-size:24px;font-weight:700;color:var(--brand)}.logo span{color:var(--accent)}
 .nav{background:var(--brand)}.nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex}.nav a{color:#fff;padding:10px 16px;font-size:13px;font-weight:600}
+.breadcrumb{max-width:1280px;margin:12px auto;padding:0 16px;font-size:13px;color:var(--text-light)}.breadcrumb a{color:var(--text-light)}
 .pdp{max-width:1280px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1fr 350px;gap:32px}
 .pdp-gallery{text-align:center;padding:48px;background:var(--bg-light);border-radius:8px;font-size:120px;color:var(--text-light)}
 .pdp-info h1{font-size:22px;margin-bottom:8px}
@@ -22,7 +23,6 @@
 .pdp-buy .price{font-size:42px;font-weight:700}.pdp-buy .price sup{font-size:18px;vertical-align:super}
 .pdp-buy .stock{margin:12px 0;font-size:13px}.in-stock{color:var(--green)}.low-stock{color:var(--accent)}
 .pdp-buy .btn-cart{display:block;background:var(--brand);color:#fff;text-align:center;padding:14px;border-radius:4px;font-weight:700;font-size:16px;margin-top:16px;border:none;cursor:pointer;width:100%}.pdp-buy .btn-cart:hover{background:#004080}
-.breadcrumb{max-width:1280px;margin:12px auto;padding:0 16px;font-size:13px;color:var(--text-light)}.breadcrumb a{color:var(--text-light)}
 @media(max-width:768px){.pdp{grid-template-columns:1fr}}
 </style>
 </head>
@@ -30,9 +30,23 @@
 <div class="top-bar">Free 60-Day Tech Support on all purchases</div>
 <div class="header"><div class="header-inner">
   <a href="/" class="logo">TECH<span>MART</span></a>
+  <div class="header-actions">
+    <a href="#">Hello, Sign in</a>
+    <a href="#">&#128722; Cart</a>
+  </div>
 </div></div>
-<div class="nav"><div class="nav-inner"><a href="/">Home</a><a href="#">Top Deals</a></div></div>
-<div class="breadcrumb"><a href="/">Home</a> &gt; <a th:if="${product?.category}" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}">Category</a> &gt; <span th:text="${product?.name}">Product</span></div>
+<div class="nav"><div class="nav-inner">
+  <a href="/">Home</a>
+  <a href="#">Top Deals</a>
+  <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" th:text="${cat.name}">Category</a>
+</div></div>
+<div class="breadcrumb">
+  <a href="/">Home</a> &gt; <a th:if="${product?.category}" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}">Category</a> &gt; <span th:text="${product?.name}">Product</span>
+  <!-- Store selector -->
+  <select th:if="${stores}" th:field="*{storeId}" onchange="window.location.href='?storeId=' + this.value" style="margin-left:20px;">
+    <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name + ' - ' + store.city + ', ' + store.state}" th:selected="${store.id == selectedStoreId}"></option>
+  </select>
+</div>
 <div class="pdp" th:if="${product}">
   <div class="pdp-gallery"><img th:src="${product.imageUrl}" alt="Product Image" style="max-width:100%;height:auto;"/></div>
   <div class="pdp-info">
@@ -43,13 +57,17 @@
       <h3>Key Features</h3>
       <ul><li th:text="${product.description}">Feature</li></ul>
     </div>
+    <div class="features" th:if="${inventoryStatus}">
+      <h3>Availability</h3>
+      <p th:text="${inventoryStatus}">In Stock / Ship This Item</p>
+    </div>
   </div>
   <div class="pdp-buy">
     <div class="return">&#8635; MAY BE RETURNED WITHIN 30 DAYS</div>
     <div class="price">$<span th:text="${#numbers.formatInteger(product.price.intValue(), 1)}">0</span><sup th:text="${#strings.substring(#numbers.formatDecimal(product.price, 1, 2), #numbers.formatDecimal(product.price, 1, 2).indexOf('.') + 1)}">99</sup></div>
     <div class="stock" th:classappend="${product.stock > 20 ? 'in-stock' : 'low-stock'}">
       <span th:if="${product.stock > 20}">&#10003; In Stock</span>
-      <span th:if="${product.stock <= 20}">&#9888; Limited — <span th:text="${product.stock}">0</span> left</span>
+      <span th:if="${product.stock <= 20 and product.stock > 0}">&#9888; Limited — <span th:text="${product.stock}">0</span> left</span>
     </div>
     <button class="btn-cart">&#128722; Add to Cart</button>
     <div style="margin-top:12px;font-size:12px;color:var(--text-light);text-align:center">&#9200; 18 MINUTE IN-STORE PICKUP</div>
