@@ -34,7 +34,7 @@
 <div class="nav"><div class="nav-inner"><a href="/">Home</a><a href="#">Top Deals</a></div></div>
 <div class="breadcrumb"><a href="/">Home</a> &gt; <a th:if="${product?.category}" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}">Category</a> &gt; <span th:text="${product?.name}">Product</span></div>
 <div class="pdp" th:if="${product}">
-  <div class="pdp-gallery">&#128187;</div>
+  <div class="pdp-gallery"><img th:src="${product.imageUrl}" alt="Product Image" style="max-width:100%;height:auto;"/></div>
   <div class="pdp-info">
     <div class="brand" th:if="${product.category}" th:text="${product.category.name}">Brand</div>
     <h1 th:text="${product.name}">Product Name</h1>

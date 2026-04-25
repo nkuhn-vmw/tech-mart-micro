@@ -22,6 +22,7 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        // Existing seeding logic ...
         Category cpus = categoryRepo.save(new Category("Processors", "CPUs and APUs"));
         Category gpus = categoryRepo.save(new Category("Graphics Cards", "Discrete GPUs"));
         Category ram = categoryRepo.save(new Category("Memory", "DDR5 and DDR4 RAM"));
@@ -32,7 +33,8 @@ public class DataSeeder implements CommandLineRunner {
         Category cooling = categoryRepo.save(new Category("Cooling", "Air and liquid cooling"));
 
         // CPUs
-        productRepo.save(new Product("AMD Ryzen 9 9950X3D", "16-Core, 32-Thread, 4.3GHz Base, AM5, 170W TDP", new BigDecimal("699.99"), 25, cpus));
+        Product p1 = new Product("AMD Ryzen 9 9950X3D", "16-Core, 32-Thread, 4.3GHz Base, AM5, 170W TDP", new BigDecimal("699.99"), 25, cpus, "https://placehold.co/400x400?text=AMD%20Ryzen%209%209950X3D");
+        productRepo.save(p1);
         productRepo.save(new Product("AMD Ryzen 7 9800X3D", "8-Core, 16-Thread, 4.7GHz Base, AM5, 120W TDP", new BigDecimal("479.99"), 42, cpus));
         productRepo.save(new Product("AMD Ryzen 5 9600X", "6-Core, 12-Thread, 3.9GHz Base, AM5, 65W TDP", new BigDecimal("229.99"), 78, cpus));
         productRepo.save(new Product("Intel Core Ultra 9 285K", "24-Core, 24-Thread, 3.7GHz Base, LGA1851", new BigDecimal("589.99"), 15, cpus));

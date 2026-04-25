@@ -14,6 +14,12 @@ import java.math.BigDecimal;
 @Table(name = "products")
 public class Product {
 
+    private String imageUrl;
+
+    private String imageUrl;
+
+    private String imageUrl;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,12 +43,33 @@ public class Product {
 
     // Constructors
     public Product() {}
-    public Product(String name, String description, BigDecimal price, Integer stock, Category category) {
+
+    public Product(String name, String description, BigDecimal price, Integer stock, Category category, String imageUrl) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
         this.category = category;
+        this.imageUrl = imageUrl;
+    }
+    public Product(String name, String description, BigDecimal price, Integer stock, Category category) {
+        // Generate placeholder image URL based on product name
+        String placeholder = "https://placehold.co/400x400?text=" + name.replace(" ", "%20");
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+        this.imageUrl = placeholder;
+    }
+
+    public Product(String name, String description, BigDecimal price, Integer stock, Category category, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.category = category;
+        this.imageUrl = imageUrl;
     }
 
     // Getters and Setters
@@ -57,5 +84,8 @@ public class Product {
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
     public Category getCategory() { return category; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public void setCategory(Category category) { this.category = category; }
 }
