@@ -1,0 +1,11 @@
+{
+  "name": "tech-mart-micro",
+  "version": "1.0.0",
+  "description": "Tech Mart Micro - Tailwind CSS Polish",
+  "scripts": {
+    "build": "echo 'Build process'"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0"
+  }
+}
