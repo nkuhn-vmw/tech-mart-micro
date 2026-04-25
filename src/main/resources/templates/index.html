@@ -100,7 +100,7 @@ a{color:var(--brand);text-decoration:none}
   </form>
   <div class="header-actions">
     <a href="#">Hello, Sign in</a>
-    <a href="#">&#128722; Cart</a>
+    <a href="#"><span id="cart-badge" class="badge">0</span> &#128722; Cart</a>
   </div>
 </div></div>
 <div class="nav"><div class="nav-inner">
@@ -149,7 +149,7 @@ a{color:var(--brand);text-decoration:none}
         <span th:if="${p.stock > 20}">&#10003; In Stock</span>
         <span th:if="${p.stock <= 20 and p.stock > 0}">&#9888; Limited — <span th:text="${p.stock}">0</span> left</span>
       </div>
-      <button class="btn-cart">Add to Cart</button>
+      <button class="btn-cart" hx-post="/cart/add?productId=[[${p.id}]]" hx-target="#cart-badge" hx-swap="outerHTML">Add to Cart</button>
     </div>
   </div>
 </div>

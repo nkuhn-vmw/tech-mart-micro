@@ -31,6 +31,8 @@ public class Product {
     @PositiveOrZero(message = "Stock cannot be negative")
     private Integer stock;
 
+    private String imageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -42,6 +44,15 @@ public class Product {
         this.description = description;
         this.price = price;
         this.stock = stock;
+        this.category = category;
+    }
+    
+    public Product(String name, String description, BigDecimal price, Integer stock, String imageUrl, Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+        this.imageUrl = imageUrl;
         this.category = category;
     }
 
@@ -56,6 +67,8 @@ public class Product {
     public void setPrice(BigDecimal price) { this.price = price; }
     public Integer getStock() { return stock; }
     public void setStock(Integer stock) { this.stock = stock; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
     public Category getCategory() { return category; }
     public void setCategory(Category category) { this.category = category; }
 }
