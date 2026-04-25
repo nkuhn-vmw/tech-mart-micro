@@ -43,9 +43,12 @@
 <div class="breadcrumb">
   <a href="/">Home</a> &gt; <a th:if="${product?.category}" th:href="@{/category/{id}(id=${product.category.id})}" th:text="${product.category.name}">Category</a> &gt; <span th:text="${product?.name}">Product</span>
   <!-- Store selector -->
-  <select th:if="${stores}" th:field="*{storeId}" onchange="window.location.href='?storeId=' + this.value" style="margin-left:20px;">
-    <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name + ' - ' + store.city + ', ' + store.state}" th:selected="${store.id == selectedStoreId}"></option>
-  </select>
+  <div style="margin-left:20px; display: inline-block;">
+    <label for="storeSelector" style="font-weight: 600;">Select Store:</label>
+    <select id="storeSelector" th:if="${stores}" th:field="*{storeId}" onchange="window.location.href='?storeId=' + this.value" style="margin-left: 8px; padding: 4px; border-radius: 4px; border: 1px solid var(--border);">
+      <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name + ' - ' + store.city + ', ' + store.state}" th:selected="${store.id == selectedStoreId}"></option>
+    </select>
+  </div>
 </div>
 <div class="pdp" th:if="${product}">
   <div class="pdp-gallery"><img th:src="${product.imageUrl}" alt="Product Image" style="max-width:100%;height:auto;"/></div>
