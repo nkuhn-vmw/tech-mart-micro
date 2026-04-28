@@ -1,0 +1,30 @@
+<!-- Header fragment -->
+<div th:fragment="site-header">
+  <div class="top-bar">Lowest Prices on PC Bundles &mdash; <a href="#">Shop AMD</a> | <a href="#">Shop Intel</a></div>
+  <div class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">TECH<span>MART</span></a>
+      <form class="search-box" th:action="@{/search}" method="get">
+        <input type="text" name="q" placeholder="What can we help you find?" th:value="${query}">
+        <button type="submit">&#128269;</button>
+      </form>
+      <div class="header-actions">
+        <a href="#">Hello, Sign in</a>
+        <a href="/cart">&#128722; Cart</a>
+        <form th:action="@{/store/select}" method="post" style="display:inline;">
+          <select name="storeId" onchange="this.form.submit()" style="margin-left:8px;">
+            <option th:each="store : ${stores}" th:value="${store.id}" th:text="${store.name}" th:selected="${store.id == selectedStoreId}"></option>
+          </select>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <div class="nav-inner">
+      <a href="/">Home</a>
+      <a href="#">Top Deals</a>
+      <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" th:text="${cat.name}"></a>
+      <span class="pickup">&#9200; 18 MIN IN-STORE PICKUP</span>
+    </div>
+  </div>
+</div>
