@@ -5,10 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tech Mart Micro</title>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--brand:#0056a6;--accent:#f5a623;--dark:#1a1a1a;--header-bg:#002d6a;--search-bg:#f5a623;--text:#333;--text-light:#666;--border:#e0e0e0;--bg-light:#f5f5f5;--green:#28a745;--red:#cc0000}
-/* existing styles omitted for brevity */
-</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body>
 <div th:replace="~{fragments/header :: site-header}"></div>
@@ -18,8 +16,8 @@
     <div>
       <h2>AMD Ryzen 9 9950X3D</h2>
       <p>16-Core, 32-Thread Desktop Processor</p>
-      <div class="price">$699<sup>99</sup></div>
-      <div class="save">SAVE $100</div>
+      <div class="price font-bold">$699<sup>99</sup></div>
+      <div class="bg-orange-500 text-white px-2 py-1 rounded">SAVE $100</div>
       <a href="#" class="btn">SHOP NOW &#9654;</a>
     </div>
   </div>
@@ -44,7 +42,7 @@
 <div class="section">
   <h2>Featured Products <a href="#">See All</a></h2>
   <div class="product-grid">
-    <div th:each="p : ${featuredProducts}" class="product-card">
+    <div th:each="p : ${featuredProducts}" class="bg-white border rounded-lg p-4 hover:shadow-lg">
       <div class="name"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">Product</a></div>
       <div class="desc" th:text="${p.description}">Description</div>
       <div class="price">$<span th:text="${#numbers.formatDecimal(p.price, 1, 2)}">0.00</span></div>
@@ -52,7 +50,7 @@
         <span th:if="${p.stock > 20}">&#10003; In Stock</span>
         <span th:if="${p.stock <= 20 and p.stock > 0}">&#9888; Limited — <span th:text="${p.stock}">0</span> left</span>
       </div>
-      <button class="btn-cart">Add to Cart</button>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add to Cart</button>
     </div>
   </div>
 </div>

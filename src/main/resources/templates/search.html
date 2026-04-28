@@ -23,12 +23,12 @@
 <div class="content">
   <h1 style="font-size:22px;margin-bottom:16px"><span th:text="${#lists.size(products)}">0</span> results for "<span th:text="${query}">query</span>"</h1>
   <div th:if="${#lists.isEmpty(products)}" style="padding:32px;text-align:center;color:var(--text-light)">No products found. Try a different search.</div>
-  <div class="product-grid">
-    <div th:each="p : ${products}" class="product-card">
+  <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    <div th:each="p : ${products}" class="bg-white border rounded-lg p-4 hover:shadow-lg">
       <div class="name"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">Product</a></div>
       <div class="desc" th:text="${p.description}">Desc</div>
       <div class="price">$<span th:text="${#numbers.formatDecimal(p.price,1,2)}">0.00</span></div>
-      <button class="btn-cart">Add to Cart</button>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add to Cart</button>
     </div>
   </div>
 </div>
