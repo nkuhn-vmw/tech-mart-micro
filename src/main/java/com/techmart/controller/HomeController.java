@@ -2,25 +2,51 @@ package com.techmart.controller;
 
 import com.techmart.domain.Category;
 import com.techmart.domain.Product;
+import com.techmart.domain.Store;
+import com.techmart.domain.StoreInventory;
 import com.techmart.repository.CategoryRepository;
 import com.techmart.repository.ProductRepository;
+import com.techmart.repository.StoreInventoryRepository;
+import com.techmart.repository.StoreRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
 
     private final ProductRepository productRepo;
     private final CategoryRepository categoryRepo;
+    private final StoreRepository storeRepo;
+    private final StoreInventoryRepository inventoryRepo;
 
-    public HomeController(ProductRepository productRepo, CategoryRepository categoryRepo) {
+    public HomeController(ProductRepository productRepo, CategoryRepository categoryRepo,
+                          StoreRepository storeRepo, StoreInventoryRepository inventoryRepo) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
+        this.storeRepo = storeRepo;
+        this.inventoryRepo = inventoryRepo;
+    }
+
+    @ModelAttribute("stores")
+    public List<Store> stores() {
+        return storeRepo.findAll();
+    }
+
+    @ModelAttribute("selectedStoreId")
+    public Long selectedStoreId(HttpSession session) {
+        Object attr = session.getAttribute("selectedStoreId");
+        return attr instanceof Long ? (Long) attr : null;
+    }
+
+    @PostMapping("/store/select")
+    public String selectStore(@RequestParam Long storeId, HttpSession session) {
+        session.setAttribute("selectedStoreId", storeId);
+        return "redirect:" + (session.getAttribute("referer") != null ? session.getAttribute("referer") : "/");
     }
 
     @GetMapping("/")
@@ -41,8 +67,23 @@ public class HomeController {
     }
 
     @GetMapping("/product/{id}")
-    public String product(@PathVariable Long id, Model model) {
-        model.addAttribute("product", productRepo.findById(id).orElse(null));
+    public String product(@PathVariable Long id, Model model, HttpSession session) {
+        Product product = productRepo.findById(id).orElse(null);
+        model.addAttribute("product", product);
+        Long storeId = (Long) session.getAttribute("selectedStoreId");
+        if (product != null && storeId != null) {
+            Optional<Store> storeOpt = storeRepo.findById(storeId);
+            if (storeOpt.isPresent()) {
+                Optional<StoreInventory> inv = inventoryRepo.findByProductAndStore(product, storeOpt.get());
+                if (inv.isPresent() && inv.get().getQuantity() > 0) {
+                    model.addAttribute("stockMessage", "In Stock at " + storeOpt.get().getName());
+                } else {
+                    model.addAttribute("stockMessage", "Ship This Item");
+                }
+            }
+        } else {
+            model.addAttribute("stockMessage", "Ship This Item");
+        }
         return "product";
     }
 

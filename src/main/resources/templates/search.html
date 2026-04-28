@@ -8,23 +8,18 @@
 :root{--brand:#0056a6;--accent:#f5a623;--dark:#1a1a1a;--text:#333;--text-light:#666;--border:#e0e0e0;--bg-light:#f5f5f5;--green:#28a745}
 *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Open Sans',sans-serif;font-size:14px;color:var(--text)}a{color:var(--brand);text-decoration:none}
 .top-bar{background:var(--brand);color:#fff;text-align:center;padding:8px;font-weight:600;font-size:13px}
-.header{background:#fff;border-bottom:1px solid var(--border);padding:12px 0}.header-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:16px}
-.logo{font-size:24px;font-weight:700;color:var(--brand)}.logo span{color:var(--accent)}
-.search-box{flex:1;display:flex;max-width:500px}.search-box input{flex:1;border:2px solid var(--brand);border-right:none;border-radius:4px 0 0 4px;padding:8px 12px;font-size:14px;outline:none}.search-box button{background:var(--brand);color:#fff;border:2px solid var(--brand);border-radius:0 4px 4px 0;padding:8px 16px;cursor:pointer}
+/* header and nav styles omitted - using fragment */
 .content{max-width:1280px;margin:24px auto;padding:0 16px}
-.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.product-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;transition:box-shadow .2s}.product-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1px));gap:16px}
+.product-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;transition:box-shadow .2s}
+.product-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.15)}
 .product-card .name{font-size:14px;font-weight:600;margin-bottom:8px}.product-card .name a{color:var(--text)}
 .product-card .price{font-size:28px;font-weight:700}.product-card .desc{font-size:12px;color:var(--text-light);margin:8px 0}
 .btn-cart{display:block;background:var(--brand);color:#fff;text-align:center;padding:8px;border-radius:4px;font-weight:600;font-size:13px;margin-top:12px;border:none;cursor:pointer;width:100%}
 </style>
 </head>
 <body>
-<div class="top-bar">Free shipping on orders over $99</div>
-<div class="header"><div class="header-inner">
-  <a href="/" class="logo">TECH<span>MART</span></a>
-  <form class="search-box" action="/search" method="get"><input type="text" name="q" th:value="${query}" placeholder="What can we help you find?"><button type="submit">&#128269;</button></form>
-</div></div>
+<div th:replace="~{fragments/header :: site-header}"></div>
 <div class="content">
   <h1 style="font-size:22px;margin-bottom:16px"><span th:text="${#lists.size(products)}">0</span> results for "<span th:text="${query}">query</span>"</h1>
   <div th:if="${#lists.isEmpty(products)}" style="padding:32px;text-align:center;color:var(--text-light)">No products found. Try a different search.</div>
@@ -32,10 +27,11 @@
     <div th:each="p : ${products}" class="product-card">
       <div class="name"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">Product</a></div>
       <div class="desc" th:text="${p.description}">Desc</div>
-      <div class="price">$<span th:text="${#numbers.formatDecimal(p.price, 1, 2)}">0.00</span></div>
+      <div class="price">$<span th:text="${#numbers.formatDecimal(p.price,1,2)}">0.00</span></div>
       <button class="btn-cart">Add to Cart</button>
     </div>
   </div>
 </div>
+<div th:replace="~{fragments/footer :: site-footer}"></div>
 </body>
 </html>
