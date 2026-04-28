@@ -5,52 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tech Mart Micro</title>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="font-sans">
 <div th:replace="~{fragments/header :: site-header}"></div>
 
-<div class="hero">
-  <div class="hero-main">
-    <div>
-      <h2>AMD Ryzen 9 9950X3D</h2>
-      <p>16-Core, 32-Thread Desktop Processor</p>
-      <div class="price font-bold">$699<sup>99</sup></div>
-      <div class="bg-orange-500 text-white px-2 py-1 rounded">SAVE $100</div>
-      <a href="#" class="btn">SHOP NOW &#9654;</a>
+<div class="hero bg-gray-100 py-12">
+  <div class="hero-main container mx-auto px-4">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-2">AMD Ryzen 9 9950X3D</h2>
+      <p class="text-gray-600 mb-4">16-Core, 32-Thread Desktop Processor</p>
+      <div class="price font-bold text-xl mb-2">$699<sup class="text-sm">99</sup></div>
+      <div class="bg-orange-500 text-white px-3 py-1 rounded text-sm font-bold">SAVE $100</div>
+      <a href="#" class="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">SHOP NOW &#9654;</a>
     </div>
   </div>
-  <div class="hero-side">
-    <h3>Top Deal</h3>
-    <p>RTX 5080 Founders Edition</p>
-    <div class="price">$999<sup>99</sup></div>
-    <div class="save">SAVE $200</div>
+  <div class="hero-side container mx-auto px-4 mt-8">
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+      <h3 class="text-xl font-bold mb-2">Top Deal</h3>
+      <p class="text-gray-600 mb-4">RTX 5080 Founders Edition</p>
+      <div class="price font-bold text-xl mb-2">$999<sup class="text-sm">99</sup></div>
+      <div class="bg-orange-500 text-white px-3 py-1 rounded text-sm font-bold">SAVE $200</div>
+    </div>
   </div>
 </div>
 
-<div class="section">
-  <h2>Shop by Category</h2>
-  <div class="cat-grid">
-    <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" class="cat-tile">
-      <span class="icon">&#128187;</span>
-      <span th:text="${cat.name}">Category</span>
+<div class="section container mx-auto px-4 py-8">
+  <h2 class="text-2xl font-bold mb-6">Shop by Category</h2>
+  <div class="cat-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" class="cat-tile bg-white border rounded-lg p-4 text-center hover:shadow-lg transition-shadow">
+      <span class="icon text-3xl mb-2 block">&#128187;</span>
+      <span th:text="${cat.name}" class="font-medium">Category</span>
     </a>
   </div>
 </div>
 
-<div class="section">
-  <h2>Featured Products <a href="#">See All</a></h2>
-  <div class="product-grid">
-    <div th:each="p : ${featuredProducts}" class="bg-white border rounded-lg p-4 hover:shadow-lg">
-      <div class="name"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">Product</a></div>
-      <div class="desc" th:text="${p.description}">Description</div>
-      <div class="price">$<span th:text="${#numbers.formatDecimal(p.price, 1, 2)}">0.00</span></div>
-      <div class="stock" th:classappend="${p.stock > 20 ? 'in-stock' : 'low-stock'}">
-        <span th:if="${p.stock > 20}">&#10003; In Stock</span>
-        <span th:if="${p.stock <= 20 and p.stock > 0}">&#9888; Limited — <span th:text="${p.stock}">0</span> left</span>
+<div class="section container mx-auto px-4 py-8">
+  <h2 class="text-2xl font-bold mb-6">Featured Products <a href="#" class="text-blue-600 hover:underline">See All</a></h2>
+  <div class="product-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div th:each="p : ${featuredProducts}" class="bg-white border rounded-lg p-4 hover:shadow-lg transition-shadow">
+      <div class="name font-bold mb-2"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}" class="text-gray-900 hover:text-blue-600">Product</a></div>
+      <div class="desc text-gray-600 text-sm mb-3" th:text="${p.description}">Description</div>
+      <div class="price font-bold text-lg mb-2">$<span th:text="${#numbers.formatDecimal(p.price, 1, 2)}">0.00</span></div>
+      <div class="stock mb-3" th:classappend="${p.stock > 20 ? 'in-stock' : 'low-stock'}">
+        <span th:if="${p.stock > 20}" class="text-green-600">&#10003; In Stock</span>
+        <span th:if="${p.stock <= 20 and p.stock > 0}" class="text-orange-500">&#9888; Limited — <span th:text="${p.stock}">0</span> left</span>
       </div>
-      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add to Cart</button>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">Add to Cart</button>
     </div>
   </div>
 </div>
