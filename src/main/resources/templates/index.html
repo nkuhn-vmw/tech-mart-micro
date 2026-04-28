@@ -5,29 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tech Mart Micro</title>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link th:href="@{/static/css/style.css}" rel="stylesheet" />
 <style>
 :root{--brand:#0056a6;--accent:#f5a623;--dark:#1a1a1a;--header-bg:#002d6a;--search-bg:#f5a623;--text:#333;--text-light:#666;--border:#e0e0e0;--bg-light:#f5f5f5;--green:#28a745;--red:#cc0000}
-/* existing styles omitted for brevity */
+/* existing inline styles omitted for brevity */
 </style>
 </head>
 <body>
 <div th:replace="~{fragments/header :: site-header}"></div>
 
-<div class="hero">
-  <div class="hero-main">
-    <div>
-      <h2>AMD Ryzen 9 9950X3D</h2>
-      <p>16-Core, 32-Thread Desktop Processor</p>
-      <div class="price">$699<sup>99</sup></div>
-      <div class="save">SAVE $100</div>
-      <a href="#" class="btn">SHOP NOW &#9654;</a>
-    </div>
+<!-- Hero Banner -->
+<div class="hero-banner">
+  <h1 th:text="${featuredProducts[0].name}">Featured Product</h1>
+  <div class="price">
+    $<span th:text="${#numbers.formatInteger(featuredProducts[0].price.intValue(),1)}">0</span><sup th:text="${#strings.substringAfter(#numbers.formatDecimal(featuredProducts[0].price,1,2),'.')}">99</sup>
   </div>
-  <div class="hero-side">
-    <h3>Top Deal</h3>
-    <p>RTX 5080 Founders Edition</p>
-    <div class="price">$999<sup>99</sup></div>
-    <div class="save">SAVE $200</div>
+  <span class="save-badge">SAVE $100</span>
+  <a th:href="@{/product/{id}(id=${featuredProducts[0].id})}" class="shop-now">SHOP NOW &#9654;</a>
+</div>
+
+<!-- Shell Shocker Deal of the Day -->
+<div class="shell-shocker">
+  <div class="header-bar">Shell Shocker — Deal of the Day</div>
+  <div class="product-card" th:if="${deals.size() > 0}">
+    <a th:href="@{/product/{id}(id=${deals[0].id})}">
+      <img th:src="${deals[0].imageUrl}" alt="Deal Image" />
+    </a>
+    <div class="title" th:text="${deals[0].name}">Deal Product</div>
+    <div class="price">
+      $<span th:text="${#numbers.formatInteger(deals[0].price.intValue(),1)}">0</span><sup th:text="${#strings.substringAfter(#numbers.formatDecimal(deals[0].price,1,2),'.')}">99</sup>
+    </div>
   </div>
 </div>
 
@@ -47,12 +54,16 @@
     <div th:each="p : ${featuredProducts}" class="product-card">
       <div class="name"><a th:href="@{/product/{id}(id=${p.id})}" th:text="${p.name}">Product</a></div>
       <div class="desc" th:text="${p.description}">Description</div>
-      <div class="price">$<span th:text="${#numbers.formatDecimal(p.price, 1, 2)}">0.00</span></div>
+      <div class="price">$<span th:text="${#numbers.formatDecimal(p.price,1,2)}">0.00</span></div>
       <div class="stock" th:classappend="${p.stock > 20 ? 'in-stock' : 'low-stock'}">
         <span th:if="${p.stock > 20}">&#10003; In Stock</span>
         <span th:if="${p.stock <= 20 and p.stock > 0}">&#9888; Limited — <span th:text="${p.stock}">0</span> left</span>
       </div>
-      <button class="btn-cart">Add to Cart</button>
+      <form th:action="@{/cart/add}" method="post">
+        <input type="hidden" name="productId" th:value="${p.id}" />
+        <input type="hidden" name="quantity" value="1" />
+        <button type="submit" class="btn-cart">Add to Cart</button>
+      </form>
     </div>
   </div>
 </div>

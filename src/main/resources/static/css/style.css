@@ -1,0 +1,62 @@
+/* Custom CSS for hero banner and Shell Shocker section */
+
+.hero-banner {
+  width: 100%;
+  background: linear-gradient(to right, #1a1a1a, #002d6a);
+  color: #fff;
+  padding: 48px 24px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+.hero-banner h1 {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.hero-banner .price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 12px 0;
+}
+.hero-banner .price sup {
+  font-size: 1rem;
+  vertical-align: super;
+}
+.hero-banner .save-badge {
+  display: inline-block;
+  background: #e85d04;
+  color: #fff;
+  padding: 4px 8px;
+  margin-right: 12px;
+  font-weight: 600;
+}
+.hero-banner .shop-now {
+  display: inline-block;
+  background: #e85d04;
+  color: #fff;
+  padding: 12px 24px;
+  margin-top: 16px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.shell-shocker {
+  margin-bottom: 32px;
+}
+.shell-shocker .header-bar {
+  background: #e85d04;
+  color: #fff;
+  padding: 8px 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.shell-shocker .product-card {
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.shell-shocker .product-card img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: cover;
+}
